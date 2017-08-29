@@ -1,5 +1,4 @@
 # class8
-Creat a blog for my class,base on node.js、koa2、jade、mongoDB
+3个月没有动的项目重启 从原来的blog改成做数据可视化 技术选型也有一点调整
 
-加载模块 npm install
-启动项目 npm start
+> * 由浅入深 慢慢来 老项目 sorry
