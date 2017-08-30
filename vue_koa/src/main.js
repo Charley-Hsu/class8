@@ -1,15 +1,29 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
-
-Vue.config.productionTip = false
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+import Echarts from 'echarts'
+import VueRouter from 'vue-router'
+Vue.use(ElementUI) // vue全局设置
+Vue.use(VueRouter)
+Vue.use(Echarts)
+import Login from './components/Login'
+import TodoList from './components/TodoList'
+const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes: [{
+    path: '/', // 默认首页打开是登录页
+    component: Login
+  }, {
+    path: '/todolist',
+    component: TodoList
+  }, {
+    path: '*',
+    redirect: '/' // 输入其他不存在的地址自动跳回首页
+  }]
 })
+new Vue({
+  router: router, // 启用router
+  render: h => h(App)
+}).$mount('#app') // 挂载到id为app的元素上
