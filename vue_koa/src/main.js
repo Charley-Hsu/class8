@@ -9,6 +9,7 @@ Vue.use(VueRouter)
 Vue.use(Echarts)
 import Login from './components/Login'
 import TodoList from './components/TodoList'
+import MapDemo from './components/MapDemo'
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,
@@ -18,6 +19,9 @@ const router = new VueRouter({
   }, {
     path: '/todolist',
     component: TodoList
+  }, {
+    path: '/map',
+    component: MapDemo
   }, {
     path: '*',
     redirect: '/' // 输入其他不存在的地址自动跳回首页

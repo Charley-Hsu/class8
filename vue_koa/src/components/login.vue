@@ -18,7 +18,7 @@
 </template>
 <script>
   export default {
-    data () {
+    data: function () {
       return {
         account: '',
         password: ''
@@ -26,7 +26,7 @@
     },
     methods: {
       loginToDo: function () {
-        this.$router.push('/todolist') // 编程式路由，通过push方法，改变路由。
+        this.$router.push('/todolist')// 编程式路由，通过push方法，改变路由。
       }
     }
   }

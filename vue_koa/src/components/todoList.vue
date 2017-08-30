@@ -108,6 +108,7 @@
 <style lang="stylus" scoped>
   .el-input
     margin 20px auto
+
   .todo-list
     width 100%
     margin-top 8px
@@ -120,6 +121,7 @@
       &.finished
         text-decoration line-through
         color #ddd
+
   .pull-right
     float right
 </style>
