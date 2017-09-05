@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
-    "server": "nodemon --delay 2000ms -w app.js -w server server-entry.js",
+    "server": "nodemon --delay 1000ms -w app.js -w server server-entry.js",
     "start": "concurrently -k \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
