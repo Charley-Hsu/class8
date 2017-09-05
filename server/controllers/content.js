@@ -13,7 +13,7 @@ const postUserAuth = async function (ctx) {
   const userInfo = await user.getUserByName(data.name)
   console.log(ctx.request)
   if (userInfo != null) { // 如果查无此用户会返回null
-    if (userInfo.id!=data.password) {
+    if (userInfo.singer!=data.password) {
       ctx.body = {
         success: false, // success标志位是方便前端判断返回是正确与否
         info: '密码错误！'
