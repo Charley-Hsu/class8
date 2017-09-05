@@ -14,7 +14,7 @@ npm run server
 # build the program
 npm run dev
 ```
-notice：
+## Notice
 
  #### error：please install mysql2 package manually
 ``` bash
