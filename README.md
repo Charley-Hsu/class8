@@ -14,8 +14,9 @@ npm run server
 # build the program
 npm run dev
 ```
-notice：
- error：please install mysql2 package manually
+## Notice
+
+ #### error：please install mysql2 package manually
 ``` bash
 $ npm install --save sequelize
 # And the following:
