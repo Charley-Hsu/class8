@@ -1,6 +1,6 @@
 <template>
   <div>
-    <collapse :data="list"></collapse>
+    <collapse :data="list" :name="name"></collapse>
     <!--<card class="card"></card>-->
   </div>
 </template>

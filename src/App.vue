@@ -1,16 +1,21 @@
 <!-- APP.vue -->
 <template>
   <div id="app">
-    <div class="logo">
-      <img src="./assets/node.png" class="logoImg">
-      <img src="./assets/vue.png" class="logoImg">
-      <img src="./assets/element.png" class="logoImg">
-    </div>
+    <el-carousel :interval="4000" type="card" height="100px">
+      <el-carousel-item v-for="item in imgList" :key="item">
+        <img :src="item" class="logoImg">
+      </el-carousel-item>
+    </el-carousel>
     <router-view></router-view> <!-- 原本的Login换成了router-view 这就是路由视图渲染的目标元素-->
   </div>
 </template>
 <script>
   export default {
+    data: function () {
+      return {
+        imgList: ['./static/node.png', './static/vue.png', './static/element.png']
+      }
+    },
     name: 'app' // 不需要再引入`Login`\`TodoList`组件了，因为在路由里已经注册了
   }
 </script>
@@ -21,9 +26,10 @@
     -moz-osx-font-smoothing:grayscale;
     text-align:center;
     color:#2c3e50;
-    margin-top:60px;
+    margin-top:30px;
 
   .logoImg
     width:100px;
+    margin-bottom:20px;
 
 </style>
