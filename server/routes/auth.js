@@ -1,4 +1,4 @@
-import auth from '../controllers/content.js'
+import auth from '../controllers/login.js'
 import koa_router from 'koa-router'
 const router = koa_router()
 
