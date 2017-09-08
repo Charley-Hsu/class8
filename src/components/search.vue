@@ -1,0 +1,129 @@
+<template>
+  <el-row class="content">
+    <el-col :xs="{span:20,offset:2}" :sm="{span:8,offset:8}">
+      <span>
+        {{name}},开始你的寻找热评之旅吧！
+      </span>
+      <el-input placeholder="输入你要查询的歌手" v-model="searchName" @keyup.enter.native="search" icon="search"></el-input>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="歌手" name="singer">
+          <el-col :xs="24">
+            <template v-if="!list.empty"> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
+              <template v-for="(item,index) in list.data">
+                <div class="singer-list">
+                  <span class="itemCount">
+                    {{ index + 1 }}.
+                  </span>
+                  <span class="itemName">
+                    {{ item.name }}
+                  </span>
+                  <el-tag :type="itemType(item.id)" style="margin-left: 20px;">{{item.type}}</el-tag>
+                  <span class="pull-right">
+                    <el-button type="primary" size="mini" @click="enter(item.singer, item.name)">Enter<i class="el-icon-arrow-right"></i></el-button>
+                  </span>
+                </div>
+              </template>
+            </template>
+            <div v-if="list.empty" class="Done">
+              您寻找的歌手已经突破地球了~
+            </div>
+          </el-col>
+        </el-tab-pane>
+      </el-tabs>
+    </el-col>
+  </el-row>
+</template>
+<script>
+  import jwt from 'jsonwebtoken'
+  export default {
+    created: function () {
+      const userInfo = this.getUserInfo()
+      if (userInfo !== null) {
+        this.id = userInfo.id
+        this.name = userInfo.name
+      } else {
+        this.id = ''
+        this.name = ''
+      }
+    },
+    data () {
+      return {
+        activeName: 'singer',
+        name: '',
+        searchName: '',
+        list: { }
+      }
+    },
+    methods: {
+      getUserInfo: function () {
+        const token = sessionStorage.getItem('demo-token')
+        if (token != null && token !== 'null') {
+          let decode = jwt.verify(token, 'vue-koa-demo')
+          return decode
+        } else {
+          return null
+        }
+      },
+      search: function () {
+        if (this.searchName.length < 1) {
+          this.$message.warning('输入内容为空！')
+        } else {
+          this.$http.get('/api/searchlist/' + this.searchName)
+            .then((res) => {
+              if (res.status === 200) {
+                this.list = res.data
+              } else {
+                this.$message.error('获取列表失败！')
+              }
+            }, (err) => {
+              this.$message.error('获取列表失败！')
+              console.log(err)
+            })
+        }
+      },
+      itemType: function (id) {
+        id = id[0]
+        switch (id) {
+          case '1':
+            return 'danger'
+          case '2':
+            return 'gray'
+          case '6':
+            return 'warning'
+          case '7':
+            return 'success'
+          default:
+            return ''
+        }
+      },
+      enter (singerId, signerName) {
+        sessionStorage.setItem('signerName', signerName)
+        this.$router.push({path: '/content', query: {id: singerId}})
+      }
+    }
+  }
+</script>
+<style lang="stylus" scoped>
+  .el-input
+    margin 10px auto
+
+  .singer-list
+    width 100%
+    margin-top 6px
+    padding-bottom 6px
+    border-bottom 1px solid #eee
+    overflow hidden
+    text-align left
+    .itemCount
+      font-size: 12px;
+      color: #8391a5
+    .itemName
+      font-size 14px
+
+  .pull-right
+    float right
+
+  .Done
+    margin-top 40px
+    color #bfcbd9
+</style>

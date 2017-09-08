@@ -13,7 +13,7 @@
   export default {
     data: function () {
       return {
-        imgList: ['./static/node.png', './static/vue.png', './static/element.png']
+        imgList: ['./static/node.png', './static/vue.png', './static/element.png', './static/music2.jpg']
       }
     },
     name: 'app' // 不需要再引入`Login`\`TodoList`组件了，因为在路由里已经注册了

@@ -10,7 +10,7 @@ Vue.use(ElementUI) // vue全局设置
 Vue.use(VueRouter)
 Vue.use(Echarts)
 import Login from './components/Login'
-import TodoList from './components/TodoList'
+import Search from './components/Search'
 import MapDemo from './components/MapDemo'
 import UiDemo from './components/ContentDemo'
 
@@ -21,8 +21,8 @@ const router = new VueRouter({
     path: '/', // 默认首页打开是登录页
     component: Login
   }, {
-    path: '/todolist',
-    component: TodoList
+    path: '/search',
+    component: Search
   }, {
     path: '/map',
     component: MapDemo
@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
   const token = sessionStorage.getItem('demo-token')
   if (to.path === '/') { // 如果是跳转到登录页的
     if (token !== 'null' && token !== null) {
-      next('/content') // 如果有token就转向todolist不返回登录页
+      next('/search') // 如果有token就转向Search不返回登录页
     }
     next() // 否则跳转回登录页
   } else {
