@@ -9,9 +9,9 @@
           v-model="account" placeholder="账号" type="text">
         </el-input>
         <el-input
-          v-model="password" placeholder="密码" type="password">
+          v-model="password" placeholder="密码" type="password" @keyup.enter.native="login">
         </el-input>
-        <el-button type="primary" @click="loginToDo">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
       </el-row>
     </el-col>
   </el-row>
@@ -26,7 +26,7 @@
       }
     },
     methods: {
-      loginToDo: function () {
+      login: function () {
         let obj = {
           name: this.account,
           password: this.password

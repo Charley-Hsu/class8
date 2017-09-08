@@ -3,7 +3,7 @@
     <div class="title">
       <span class="text">歌手：</span><span class="singer">{{name}}</span>
     </div>
-    <collapse :data="list.data" :name="name" v-if="!list.empty"></collapse>
+    <collapse :data="list.data" :name="name" v-if="!list.empty"  v-loading="loading" element-loading-text="拼命加载中" style="width: 100%;height:400px;"></collapse>
     <div v-if="list.empty" class="Done">
       还没有收录这个歌手的歌曲呢~
     </div>
@@ -22,7 +22,8 @@
       return {
         name: '',
         list: { },
-        id: ''
+        id: '',
+        loading: true
       }
     },
     computed: {},
@@ -35,11 +36,14 @@
         this.$http.get('/api/contentlist/' + this.$route.query.id)
           .then((res) => {
             if (res.status === 200) {
+              this.loading = false
               this.list = res.data
             } else {
+              this.loading = false
               this.$message.error('获取列表失败！')
             }
           }, (err) => {
+            this.loading = false
             this.$message.error('获取列表失败！')
             console.log(err)
           })

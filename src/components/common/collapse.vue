@@ -6,7 +6,7 @@
           {{item.title}}<el-badge :value="item.comment" :max="999" class="item" style="float: right;padding-right: 10px;"></el-badge>
         </template>
         <div class="content">{{item.content}}</div>
-        <div class="name">~From：{{item.nickname}}</div>
+        <div class="name" v-if="item.nickname">~From：{{item.nickname}}</div>
       </el-collapse-item>
     </el-collapse>
   </div>

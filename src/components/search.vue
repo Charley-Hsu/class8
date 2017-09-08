@@ -7,8 +7,8 @@
       <el-input placeholder="输入你要查询的歌手" v-model="searchName" @keyup.enter.native="search" icon="search"></el-input>
       <el-tabs v-model="activeName">
         <el-tab-pane label="歌手" name="singer">
-          <el-col :xs="24">
-            <template v-if="!list.empty"> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
+          <el-col :xs="24" v-if="!list.empty"  v-loading="loading" element-loading-text="拼命加载中" style="width: 100%;height:300px;">
+            <template> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
               <template v-for="(item,index) in list.data">
                 <div class="singer-list">
                   <span class="itemCount">
@@ -24,10 +24,10 @@
                 </div>
               </template>
             </template>
-            <div v-if="list.empty" class="Done">
-              您寻找的歌手已经突破地球了~
-            </div>
           </el-col>
+          <div v-if="list.empty" class="Done">
+            您寻找的歌手已经突破地球了~
+          </div>
         </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -51,6 +51,7 @@
         activeName: 'singer',
         name: '',
         searchName: '',
+        loading: false,
         list: { }
       }
     },
@@ -65,17 +66,21 @@
         }
       },
       search: function () {
+        this.list = { }
         if (this.searchName.length < 1) {
           this.$message.warning('输入内容为空！')
         } else {
+          this.loading = true
           this.$http.get('/api/searchlist/' + this.searchName)
             .then((res) => {
+              this.loading = false
               if (res.status === 200) {
                 this.list = res.data
               } else {
                 this.$message.error('获取列表失败！')
               }
             }, (err) => {
+              this.loading = false
               this.$message.error('获取列表失败！')
               console.log(err)
             })
