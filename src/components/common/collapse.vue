@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-collapse v-model="activeName" accordion class="box_collapse" v-if="data">
-      <el-collapse-item :title="item.title" :name="index" v-for="(item,index) in data">
+      <el-collapse-item  :name="index" v-for="(item,index) in data">
+        <template slot="title">
+          {{item.title}}<el-badge :value="item.comment" :max="999" class="item" style="float: right;padding-right: 10px;"></el-badge>
+        </template>
         <div class="content">{{item.content}}</div>
         <div class="name">~From：{{item.nickname}}</div>
       </el-collapse-item>

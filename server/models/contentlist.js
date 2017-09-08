@@ -9,7 +9,7 @@ const getContentListById = async function (id) {
     where: {
       singer: id
     },
-    attributes: ['singer', 'content', 'title', 'nickname'] // 返回字段
+    attributes: ['singer', 'content', 'title', 'nickname', 'comment'] // 返回字段
   })
 
   return contentlist // 返回数据
