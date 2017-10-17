@@ -67,6 +67,14 @@
         this.name = ''
       }
     },
+    watch: {
+      activeName: function () {
+        this.searchName = ''
+        this.loading = false
+        this.list.empty = true
+        this.songList.empty = true
+      }
+    },
     computed: {
       placeholder: function () {
         if (this.activeName !== 'song') {
