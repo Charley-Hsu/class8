@@ -4,10 +4,11 @@
       <span>
         {{name}},开始你的寻找热评之旅吧！
       </span>
-      <el-input placeholder="输入你要查询的歌手" v-model="searchName" @keyup.enter.native="search" icon="search"></el-input>
+      <el-input :placeholder="placeholder" v-model="searchName" @keyup.enter.native="search" icon="search"></el-input>
       <el-tabs v-model="activeName">
         <el-tab-pane label="歌手" name="singer">
-          <el-col :xs="24" v-if="!list.empty"  v-loading="loading" element-loading-text="拼命加载中" style="width: 100%;height:300px;">
+          <div :xs="24" v-if="!list.empty&&loading" v-loading="loading" element-loading-text="拼命加载中" style="width: 100%;height:300px;"></div>
+          <el-col :xs="24" v-if="!list.empty">
             <template> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
               <template v-for="(item,index) in list.data">
                 <div class="singer-list">
@@ -26,7 +27,27 @@
             </template>
           </el-col>
           <div v-if="list.empty" class="Done">
-            您寻找的歌手已经突破地球了~
+            你寻找的歌手已经突破地球了~
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="歌曲" name="song">
+          <div :xs="24" v-if="!songList.empty && loading" v-loading="loading" element-loading-text="拼命加载中" style="width: 100%;height:300px;"></div>
+          <el-col :xs="24" v-if="!songList.empty">
+            <template> <!--v-if和v-for不能同时在一个元素内使用，因为Vue总会先执行v-for-->
+              <template v-for="(item,index) in songList">
+                <div class="singer-list">
+                  <span class="itemCount">
+                    {{ index + 1 }}.
+                  </span>
+                  <span class="itemName">
+                    {{ item.title }}
+                  </span>
+                </div>
+              </template>
+            </template>
+          </el-col>
+          <div v-if="songList.empty" class="Done">
+            或许你应该去宇宙寻找这首歌曲~
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -46,13 +67,23 @@
         this.name = ''
       }
     },
-    data () {
+    computed: {
+      placeholder: function () {
+        if (this.activeName !== 'song') {
+          return '快来查查你喜欢的歌手吧'
+        } else {
+          return '快来查查你钟情的歌曲吧'
+        }
+      }
+    },
+    data: function () {
       return {
         activeName: 'singer',
         name: '',
         searchName: '',
         loading: false,
-        list: { }
+        list: {},
+        songList: {}
       }
     },
     methods: {
@@ -70,21 +101,48 @@
         if (this.searchName.length < 1) {
           this.$message.warning('输入内容为空！')
         } else {
+          if (this.activeName === 'singer') {
+            this.searchSinger()
+          } else {
+            this.searchSong()
+          }
+        }
+      },
+      searchSong: function () {
+        this.songList = { }
+        if (this.searchName.length < 1) {
+          this.$message.warning('输入内容为空！')
+        } else {
           this.loading = true
-          this.$http.get('/api/searchlist/' + this.searchName)
+          this.$http.get('/api/searchsong/' + this.searchName)
             .then((res) => {
-              this.loading = false
               if (res.status === 200) {
-                this.list = res.data
+                this.songList = res.data.data
+                this.loading = false
+                console.log(this.songList)
               } else {
                 this.$message.error('获取列表失败！')
               }
             }, (err) => {
               this.loading = false
-              this.$message.error('获取列表失败！')
-              console.log(err)
+              this.$message.error(err)
             })
         }
+      },
+      searchSinger: function () {
+        this.loading = true
+        this.$http.get('/api/searchlist/' + this.searchName)
+          .then((res) => {
+            if (res.status === 200) {
+              this.list = res.data
+              this.loading = false
+            } else {
+              this.$message.error('获取列表失败！')
+            }
+          }, (err) => {
+            this.loading = false
+            this.$message.error(err)
+          })
       },
       itemType: function (id) {
         id = id[0]

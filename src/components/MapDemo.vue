@@ -1,7 +1,7 @@
 <template>
   <el-row class="content">
     <el-col :xs="{span:20,offset:2}" :sm="{span:8,offset:8}">
-      <div id="main" style="width: 100%;height:400px;"></div>
+      <div id="main" style="width: 600px;height:400px;"></div>
     </el-col>
   </el-row>
 </template>
