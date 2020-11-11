@@ -1,5 +1,7 @@
 # 爬虫数据可视化
 
+> 我要重启这个项目
+
 > A project base on node.js koa2 vue2 mysql
 
 ## Build Setup
